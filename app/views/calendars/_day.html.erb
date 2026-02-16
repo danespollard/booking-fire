@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "day-#{day}" do %>
+  <%= button_to availability_blocks_toggle_path, params: { date: day }, method: :post, class: "block w-full h-full rounded-lg p-1.5 text-left cursor-pointer hover:ring-2 hover:ring-amber-300 transition #{day_cell_classes(block)}" do %>
+    <span class="text-xs font-medium text-gray-700"><%= day.day %></span>
+    <div class="mt-1"><%= day_status_label(block) %></div>
+  <% end %>
+<% end %>

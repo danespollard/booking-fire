@@ -1,0 +1,42 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-amber-900"><%= @date.strftime("%B %Y") %></h1>
+  <nav class="flex items-center gap-2">
+    <%= link_to "← Prev", calendar_path(date: @month_start - 1.month), class: "px-3 py-1.5 text-sm font-medium text-amber-700 bg-white border border-amber-300 rounded-lg hover:bg-amber-50" %>
+    <%= link_to "Next →", calendar_path(date: @month_end + 1.day), class: "px-3 py-1.5 text-sm font-medium text-amber-700 bg-white border border-amber-300 rounded-lg hover:bg-amber-50" %>
+  </nav>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm border border-amber-100 overflow-x-auto">
+  <table class="w-full border-collapse">
+    <thead>
+      <tr class="bg-amber-100">
+        <% %w[Sun Mon Tue Wed Thu Fri Sat].each do |day_name| %>
+          <th class="px-2 py-2 text-xs font-semibold text-amber-800 text-center min-w-[100px]"><%= day_name %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% (@month_start.beginning_of_week(:sunday)..@month_end.end_of_week(:sunday)).each_slice(7) do |week| %>
+        <tr>
+          <% week.each do |day| %>
+            <td class="border border-amber-100 h-24 align-top p-1 min-w-[100px]">
+              <% if day.month == @date.month %>
+                <%= render "calendars/day", day: day, block: @blocks[day] %>
+              <% else %>
+                <span class="text-xs text-gray-300 p-1"><%= day.day %></span>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="mt-8 bg-white rounded-xl shadow-sm border border-amber-100 p-6">
+  <h2 class="text-lg font-semibold text-amber-900 mb-3">Your Openings</h2>
+  <div data-controller="clipboard">
+    <pre class="bg-amber-50 rounded-lg p-4 text-sm text-amber-900 mb-4 whitespace-pre-wrap" data-clipboard-target="source"><%= openings_text(@month_start, @month_end) %></pre>
+    <button data-action="click->clipboard#copy" data-clipboard-target="button" class="px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-500 cursor-pointer transition-colors">Copy</button>
+  </div>
+</div>
