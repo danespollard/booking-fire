@@ -1,6 +1,40 @@
 <%= turbo_frame_tag "day-#{day}" do %>
-  <%= button_to availability_blocks_toggle_path, params: { date: day }, method: :post, class: "block w-full h-full rounded-lg p-1.5 text-left cursor-pointer hover:ring-2 hover:ring-amber-300 transition #{day_cell_classes(block)}" do %>
+  <div class="relative h-full rounded-lg p-1.5 text-left transition cursor-pointer <%= day_cell_classes(block) %>"
+       data-controller="day-menu"
+       data-action="click->day-menu#toggle">
     <span class="text-xs font-medium text-gray-700"><%= day.day %></span>
     <div class="mt-1"><%= day_status_label(block) %></div>
-  <% end %>
+
+    <div data-day-menu-target="menu" hidden class="z-50 w-40 bg-white border border-gray-200 rounded-md shadow-xl ring-1 ring-black/5 py-1 text-sm">
+      <div class="px-3 py-1.5 text-xs font-medium text-gray-400 uppercase tracking-wide">Status</div>
+      <% %w[open hold booked].each do |s| %>
+        <% if block %>
+          <%= button_to availability_block_path(block), params: { availability_block: { status: s } }, method: :patch, class: "flex items-center justify-between w-full text-left px-3 py-1.5 text-gray-700 hover:bg-gray-50 cursor-pointer" do %>
+            <span><%= s.capitalize %></span>
+            <% if block.status == s %><span>✓</span><% end %>
+          <% end %>
+        <% else %>
+          <%= button_to availability_blocks_toggle_path, params: { date: day, status: s }, method: :post, class: "flex items-center justify-between w-full text-left px-3 py-1.5 text-gray-700 hover:bg-gray-50 cursor-pointer" do %>
+            <span><%= s.capitalize %></span>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if block %>
+        <div class="border-t border-gray-100 my-0.5"></div>
+        <div class="px-3 py-1.5 text-xs font-medium text-gray-400 uppercase tracking-wide">Time</div>
+        <% { anytime: "Anytime", daytime: "Daytime", evening: "Evening", after_9pm: "After 9pm" }.each do |value, label| %>
+          <%= button_to availability_block_path(block), params: { availability_block: { time_label: value } }, method: :patch, class: "flex items-center justify-between w-full text-left px-3 py-1.5 text-gray-700 hover:bg-gray-50 cursor-pointer" do %>
+            <span><%= label %></span>
+            <% if block.time_label == value.to_s %><span>✓</span><% end %>
+          <% end %>
+        <% end %>
+
+        <div class="border-t border-gray-100 my-0.5"></div>
+        <%= button_to availability_block_path(block), method: :delete, class: "flex items-center w-full text-left px-3 py-1.5 text-red-600 hover:bg-gray-50 cursor-pointer" do %>
+          <span>Clear</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 <% end %>

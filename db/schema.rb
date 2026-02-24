@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_16_190124) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_16_210755) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_16_190124) do
     t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "time_label", default: 0, null: false
     t.index ["user_id", "date"], name: "index_availability_blocks_on_user_id_and_date", unique: true
     t.index ["user_id"], name: "index_availability_blocks_on_user_id"
   end

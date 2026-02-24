@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resource :calendar, only: [ :show ]
   resource :openings, only: [ :show ]
   post "availability_blocks/toggle"
+  resources :availability_blocks, only: [ :update, :destroy ]
 
   root "calendars#show"
 
