@@ -1,9 +1,28 @@
 <%= turbo_frame_tag "openings" do %>
   <div class="mt-8 bg-white rounded-xl shadow-sm border border-amber-100 p-6">
-    <h2 class="text-lg font-semibold text-amber-900 mb-3">Your Openings</h2>
-    <div data-controller="clipboard">
-      <pre class="bg-amber-50 rounded-lg p-4 text-sm text-amber-900 mb-4 whitespace-pre-wrap" data-clipboard-target="source"><%= openings_text(month_start, month_end) %></pre>
-      <button data-action="click->clipboard#copy" data-clipboard-target="button" class="px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-500 cursor-pointer transition-colors">Copy</button>
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="text-lg font-semibold text-amber-900">Your Openings</h2>
+      <%= link_to "Edit templates", templates_path, class: "text-xs text-amber-600 hover:text-amber-800" %>
+    </div>
+    <div data-controller="tabs">
+      <div class="flex gap-2 mb-4 border-b border-amber-100 pb-2">
+        <% templates.each_with_index do |template, i| %>
+          <button
+            data-tabs-target="tab"
+            data-action="click->tabs#select"
+            data-active="<%= i == 0 %>"
+            class="px-3 py-1 text-xs font-medium rounded-md transition-colors data-[active=true]:bg-amber-600 data-[active=true]:text-white data-[active=false]:text-amber-700 data-[active=false]:hover:bg-amber-50"
+          ><%= template.name %></button>
+        <% end %>
+      </div>
+      <% templates.each_with_index do |template, i| %>
+        <div data-tabs-target="panel" <%= i > 0 ? "hidden" : "" %>>
+          <div data-controller="clipboard">
+            <pre class="bg-amber-50 rounded-lg p-4 text-sm text-amber-900 mb-4 whitespace-pre-wrap" data-clipboard-target="source"><%= render_template(template.body, month_start, month_end) %></pre>
+            <button data-action="click->clipboard#copy" data-clipboard-target="button" class="px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-500 cursor-pointer transition-colors">Copy</button>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 <% end %>

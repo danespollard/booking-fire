@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resource :registration, only: [ :new, :create ]
   resource :calendar, only: [ :show ]
   resource :openings, only: [ :show ]
+  resources :templates, only: [ :index, :new, :create, :edit, :update, :destroy ]
   post "availability_blocks/toggle"
   resources :availability_blocks, only: [ :update, :destroy ]
 

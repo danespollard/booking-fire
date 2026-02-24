@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_16_210755) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_24_214419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -35,6 +35,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_16_210755) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "templates", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.text "body", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "position"], name: "index_templates_on_user_id_and_position"
+    t.index ["user_id"], name: "index_templates_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email_address", null: false
     t.string "password_digest", null: false
@@ -45,4 +56,5 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_16_210755) do
 
   add_foreign_key "availability_blocks", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "templates", "users"
 end

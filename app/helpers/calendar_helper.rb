@@ -1,24 +1,15 @@
 module CalendarHelper
-  def openings_text(from, to)
+  def render_template(body, from, to)
     blocks = Current.user.availability_blocks.where(date: from..to).order(:date)
     open_blocks = blocks.select(&:open?)
     hold_blocks = blocks.select(&:hold?)
 
-    parts = []
-
-    if open_blocks.any?
-      lines = open_blocks.map { |b| format_block_line(b) }
-      parts << "I'm available on:\n#{lines.join("\n")}"
-    end
-
-    if hold_blocks.any?
-      lines = hold_blocks.map { |b| format_block_line(b) }
-      parts << "On hold:\n#{lines.join("\n")}"
-    end
-
-    return "No open dates." if parts.empty?
-
-    parts.join("\n")
+    body
+      .gsub("{open_dates}", open_dates_inline(open_blocks))
+      .gsub("{open_dates_list}", dates_list(open_blocks))
+      .gsub("{open_dates_grouped}", dates_grouped(open_blocks))
+      .gsub("{hold_dates}", open_dates_inline(hold_blocks))
+      .gsub("{hold_dates_list}", dates_list(hold_blocks))
   end
 
   def day_cell_classes(block)
@@ -55,6 +46,30 @@ module CalendarHelper
   end
 
   private
+
+  def open_dates_inline(blocks)
+    return "none" if blocks.empty?
+    blocks.map { |b| format_inline(b) }.join(", ")
+  end
+
+  def dates_list(blocks)
+    return "  (none)" if blocks.empty?
+    blocks.map { |b| format_block_line(b) }.join("\n")
+  end
+
+  def dates_grouped(blocks)
+    return "(none)" if blocks.empty?
+    blocks.group_by { |b| b.date.strftime("%a") }.map do |day, day_blocks|
+      dates = day_blocks.map { |b| b.date.strftime("%-m/%-d") }.join(", ")
+      "#{day}: #{dates}"
+    end.join("\n")
+  end
+
+  def format_inline(block)
+    s = block.date.strftime("%a %-m/%-d")
+    s += " (#{block.display_time_label})" if block.display_time_label
+    s
+  end
 
   def format_block_line(block)
     line = "  #{block.date.strftime("%a %b %-d")}"
