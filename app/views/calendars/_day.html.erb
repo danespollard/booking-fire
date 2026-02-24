@@ -4,6 +4,9 @@
        data-action="click->day-menu#toggle">
     <span class="text-xs font-medium text-gray-700"><%= day.day %></span>
     <div class="mt-1"><%= day_status_label(block) %></div>
+    <% if block&.client_name.present? %>
+      <div class="text-[9px] text-gray-600 truncate mt-0.5"><%= block.client_name %></div>
+    <% end %>
 
     <div data-day-menu-target="menu" hidden class="z-50 w-40 bg-white border border-gray-200 rounded-md shadow-xl ring-1 ring-black/5 py-1 text-sm">
       <div class="px-3 py-1.5 text-xs font-medium text-gray-400 uppercase tracking-wide">Status</div>
@@ -29,6 +32,18 @@
             <% if block.time_label == value.to_s %><span>✓</span><% end %>
           <% end %>
         <% end %>
+
+        <div class="border-t border-gray-100 my-0.5"></div>
+        <div class="px-3 py-2">
+          <%= form_with model: block do |f| %>
+            <div class="flex gap-1 items-center">
+              <%= f.text_field :client_name,
+                  placeholder: "Client name",
+                  class: "flex-1 min-w-0 border border-gray-200 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-amber-400" %>
+              <%= f.submit "→", class: "px-2 py-1 text-xs text-white bg-amber-600 rounded hover:bg-amber-500 cursor-pointer" %>
+            </div>
+          <% end %>
+        </div>
 
         <div class="border-t border-gray-100 my-0.5"></div>
         <%= button_to availability_block_path(block), method: :delete, class: "flex items-center w-full text-left px-3 py-1.5 text-red-600 hover:bg-gray-50 cursor-pointer" do %>

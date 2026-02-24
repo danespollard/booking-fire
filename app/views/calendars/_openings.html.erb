@@ -2,7 +2,7 @@
   <div class="mt-8 bg-white rounded-xl shadow-sm border border-amber-100 p-6">
     <div class="flex items-center justify-between mb-3">
       <h2 class="text-lg font-semibold text-amber-900">Your Openings</h2>
-      <%= link_to "Edit templates", templates_path, class: "text-xs text-amber-600 hover:text-amber-800" %>
+      <%= link_to "Edit templates", templates_path, class: "text-xs text-amber-600 hover:text-amber-800", data: { turbo_frame: "_top" } %>
     </div>
     <div data-controller="tabs">
       <div class="flex gap-2 mb-4 border-b border-amber-100 pb-2">

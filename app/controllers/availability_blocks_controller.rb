@@ -46,7 +46,7 @@ class AvailabilityBlocksController < ApplicationController
   private
 
   def block_params
-    params.require(:availability_block).permit(:status, :time_label)
+    params.require(:availability_block).permit(:status, :time_label, :client_name)
   end
 
   def openings_stream(date, block:)
