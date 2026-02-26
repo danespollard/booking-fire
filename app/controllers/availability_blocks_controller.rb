@@ -4,7 +4,7 @@ class AvailabilityBlocksController < ApplicationController
     block = Current.user.availability_blocks.find_by(date: date)
 
     if block.nil?
-      Current.user.availability_blocks.create!(date: date, status: params[:status] || :open)
+      Current.user.availability_blocks.create!(date: date, **block_params.to_h.symbolize_keys)
     else
       block.destroy!
     end
