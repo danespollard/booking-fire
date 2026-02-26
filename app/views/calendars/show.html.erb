@@ -19,7 +19,7 @@
       <% (@month_start.beginning_of_week(:sunday)..@month_end.end_of_week(:sunday)).each_slice(7) do |week| %>
         <tr>
           <% week.each do |day| %>
-            <td class="border border-amber-100 h-24 align-top p-1 min-w-[100px]">
+            <td class="border border-gray-200 h-24 align-top p-1 min-w-[100px]">
               <% if day.month == @date.month %>
                 <%= render "calendars/day", day: day, block: @blocks[day] %>
               <% else %>

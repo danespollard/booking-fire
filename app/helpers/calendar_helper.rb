@@ -17,32 +17,32 @@ module CalendarHelper
 
   def day_cell_classes(block)
     if block&.open?
-      "bg-emerald-100"
+      "bg-emerald-100 hover:bg-emerald-200"
     elsif block&.booked?
-      "bg-rose-100"
+      "bg-rose-100 hover:bg-rose-200"
     elsif block&.hold?
-      "bg-amber-200"
+      "bg-amber-200 hover:bg-amber-300"
     else
-      "bg-gray-50"
+      "bg-gray-50 hover:bg-gray-100"
     end
   end
 
   def day_status_label(block)
-    return content_tag(:span, "—", class: "text-gray-300") unless block
+    return nil unless block
 
     parts = []
 
     case block.status
     when "open"
-      parts << content_tag(:span, "OPEN", class: "text-[10px] font-semibold text-emerald-700")
+      parts << content_tag(:span, "OPEN", class: "text-xs font-semibold text-emerald-700")
     when "booked"
-      parts << content_tag(:span, "BOOKED", class: "text-[10px] font-semibold text-rose-700")
+      parts << content_tag(:span, "BOOKED", class: "text-xs font-semibold text-rose-700")
     when "hold"
-      parts << content_tag(:span, "HOLD", class: "text-[10px] font-semibold text-amber-700")
+      parts << content_tag(:span, "HOLD", class: "text-xs font-semibold text-amber-700")
     end
 
     if block.display_time_label
-      parts << content_tag(:span, block.display_time_label, class: "text-[9px] text-gray-500")
+      parts << content_tag(:span, block.display_time_label, class: "text-xs text-gray-500")
     end
 
     safe_join(parts, " ")

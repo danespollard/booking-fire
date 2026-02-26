@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "day-#{day}" do %>
-  <div class="relative h-full rounded-lg p-1.5 text-left transition cursor-pointer <%= day_cell_classes(block) %>"
+  <div class="relative h-full rounded-lg p-1.5 text-left transition cursor-pointer hover:ring-1 hover:ring-inset hover:ring-gray-200 <%= day_cell_classes(block) %>"
        data-controller="day-menu"
        data-action="click->day-menu#toggle">
     <span class="text-xs font-medium text-gray-700"><%= day.day %></span>
