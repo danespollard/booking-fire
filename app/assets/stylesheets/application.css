@@ -63,10 +63,34 @@ dialog[open] .day-sheet {
   }
 }
 
-.radio-row .check-mark { visibility: hidden; }
-.radio-row:has(input[type="radio"]:checked) {
-  background-color: rgb(255 251 235);
-  color: rgb(120 53 15);
-  font-weight: 600;
+.status-chip input[type="radio"],
+.time-chip input[type="radio"] { display: none; }
+
+.status-chip-row { display: flex; gap: 0.5rem; }
+.status-chip {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px 8px;
+  background: rgb(243 244 246);
+  border-color: transparent;
+  color: rgb(107 114 128);
 }
-.radio-row:has(input[type="radio"]:checked) .check-mark { visibility: visible; }
+.status-chip.status-open:has(input:checked)   { background: rgb(209 250 229); border-color: rgb(52 211 153); color: rgb(6 78 59); }
+.status-chip.status-hold:has(input:checked)   { background: rgb(254 243 199); border-color: rgb(251 191 36); color: rgb(120 53 15); }
+.status-chip.status-booked:has(input:checked) { background: rgb(255 228 230); border-color: rgb(251 113 133); color: rgb(136 19 55); }
+
+.time-chip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.time-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 8px;
+  background: rgb(243 244 246);
+  border-color: transparent;
+  color: rgb(107 114 128);
+}
+.time-chip:has(input:checked) { background: rgb(255 251 235); border-color: rgb(251 191 36); color: rgb(120 53 15); font-weight: 600; }
