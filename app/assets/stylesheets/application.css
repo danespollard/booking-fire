@@ -115,6 +115,7 @@ dialog[open] .day-sheet {
 .status-chip-row { display: flex; gap: 0.5rem; }
 .status-chip {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -134,9 +135,50 @@ dialog[open] .day-sheet {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
   padding: 14px 8px;
   background: rgb(243 244 246);
   border-color: transparent;
   color: rgb(107 114 128);
 }
 .time-chip:has(input:checked) { background: rgb(255 251 235); border-color: rgb(251 191 36); color: rgb(120 53 15); font-weight: 600; }
+
+@media (max-width: 767px) {
+  dialog[open] .day-sheet {
+    width: 100vw;
+    max-height: 92dvh;
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .day-sheet-header-inner {
+    padding: 0.75rem 1rem 0.875rem;
+  }
+
+  .form-body {
+    gap: 0.875rem;
+    padding: 1rem 0 1.25rem;
+  }
+
+  .form-section {
+    padding-inline: 0.75rem;
+  }
+
+  .form-footer {
+    padding: 0 0.75rem 1rem;
+  }
+
+  .status-chip-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .status-chip-row .status-chip:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .status-chip,
+  .time-chip {
+    padding: 12px 6px;
+  }
+}
