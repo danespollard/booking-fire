@@ -6,12 +6,12 @@
   </nav>
 </div>
 
-<div class="bg-white rounded-xl shadow-sm border border-amber-100 overflow-x-auto">
-  <table class="w-full min-w-[700px] border-collapse">
+<div class="calendar-grid-wrap bg-white rounded-xl shadow-sm border border-amber-100 overflow-x-auto">
+  <table class="calendar-grid-table w-full min-w-[700px] border-collapse">
     <thead>
       <tr class="bg-amber-100">
         <% %w[Sun Mon Tue Wed Thu Fri Sat].each do |day_name| %>
-          <th class="px-2 py-2 text-xs font-semibold text-amber-800 text-center min-w-[100px]"><%= day_name %></th>
+          <th class="calendar-grid-head px-2 py-2 text-xs font-semibold text-amber-800 text-center min-w-[100px]"><%= day_name %></th>
         <% end %>
       </tr>
     </thead>
@@ -19,11 +19,11 @@
       <% (@month_start.beginning_of_week(:sunday)..@month_end.end_of_week(:sunday)).each_slice(7) do |week| %>
         <tr>
           <% week.each do |day| %>
-            <td class="border border-gray-200 h-24 align-top p-1 min-w-[100px]">
+            <td class="calendar-grid-cell border border-gray-200 h-24 align-top p-1 min-w-[100px]">
               <% if day.month == @date.month %>
                 <%= render "calendars/day", day: day, block: @blocks[day] %>
               <% else %>
-                <span class="text-xs text-gray-300 p-1"><%= day.day %></span>
+                <span class="calendar-outside-day text-xs text-gray-300 p-1"><%= day.day %></span>
               <% end %>
             </td>
           <% end %>

@@ -144,6 +144,51 @@ dialog[open] .day-sheet {
 .time-chip:has(input:checked) { background: rgb(255 251 235); border-color: rgb(251 191 36); color: rgb(120 53 15); font-weight: 600; }
 
 @media (max-width: 767px) {
+  .calendar-grid-wrap {
+    overflow-x: hidden;
+  }
+
+  .calendar-grid-table {
+    min-width: 0 !important;
+    table-layout: fixed;
+  }
+
+  .calendar-grid-head,
+  .calendar-grid-cell {
+    min-width: 0 !important;
+  }
+
+  .calendar-grid-head {
+    padding: 0.5rem 0.25rem;
+    font-size: 11px;
+  }
+
+  .calendar-grid-cell {
+    height: 5rem;
+    padding: 0.25rem;
+  }
+
+  .calendar-outside-day {
+    font-size: 11px;
+    padding: 0.25rem;
+  }
+
+  .calendar-day-cell {
+    padding: 0.25rem;
+  }
+
+  .calendar-day-number {
+    font-size: 11px;
+  }
+
+  .calendar-mobile-status {
+    display: flex;
+  }
+
+  .calendar-desktop-meta {
+    display: none;
+  }
+
   dialog[open] .day-sheet {
     width: 100vw;
     max-height: 92dvh;
@@ -180,5 +225,11 @@ dialog[open] .day-sheet {
   .status-chip,
   .time-chip {
     padding: 12px 6px;
+  }
+}
+
+@media (min-width: 768px) {
+  .calendar-mobile-status {
+    display: none;
   }
 }

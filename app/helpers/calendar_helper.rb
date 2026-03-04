@@ -48,6 +48,14 @@ module CalendarHelper
     safe_join(parts, " ")
   end
 
+  def day_status_dot_class(block)
+    return "bg-emerald-500" if block&.open?
+    return "bg-rose-500" if block&.booked?
+    return "bg-amber-500" if block&.hold?
+
+    "bg-transparent"
+  end
+
   private
 
   def open_dates_inline(blocks)

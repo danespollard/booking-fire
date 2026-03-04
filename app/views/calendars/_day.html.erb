@@ -1,11 +1,16 @@
 <%= turbo_frame_tag "day-#{day}" do %>
-  <div class="relative h-full rounded-lg p-1.5 text-left transition cursor-pointer hover:ring-1 hover:ring-inset hover:ring-gray-200 <%= day_cell_classes(block) %>"
+  <div class="calendar-day-cell relative h-full rounded-lg p-1.5 text-left transition cursor-pointer hover:ring-1 hover:ring-inset hover:ring-gray-200 <%= day_cell_classes(block) %>"
        data-controller="day-modal"
        data-action="click->day-modal#open">
-    <span class="text-xs font-medium text-gray-700"><%= day.day %></span>
-    <div class="mt-1"><%= day_status_label(block) %></div>
+    <span class="calendar-day-number text-xs font-medium text-gray-700"><%= day.day %></span>
+    <% if block %>
+      <div class="calendar-mobile-status mt-1 items-center">
+        <span class="inline-block h-2 w-2 rounded-full <%= day_status_dot_class(block) %>"></span>
+      </div>
+    <% end %>
+    <div class="calendar-desktop-meta mt-1"><%= day_status_label(block) %></div>
     <% if block&.client_name.present? %>
-      <div class="text-[9px] text-gray-600 truncate mt-0.5"><%= block.client_name %></div>
+      <div class="calendar-desktop-meta mt-0.5 truncate text-[9px] text-gray-600"><%= block.client_name %></div>
     <% end %>
 
     <dialog data-day-modal-target="dialog"
