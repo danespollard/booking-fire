@@ -9,13 +9,8 @@ class AvailabilityBlocksController < ApplicationController
       block.destroy!
     end
 
-    respond_to do |format|
-      format.turbo_stream do
-        @block = Current.user.availability_blocks.find_by(date: date)
-        render turbo_stream: openings_stream(date, block: @block)
-      end
-      format.html { redirect_to calendar_path(date: date.beginning_of_month) }
-    end
+    @block = Current.user.availability_blocks.find_by(date: date)
+    respond_with_openings(date, block: @block)
   end
 
   def destroy
@@ -23,24 +18,14 @@ class AvailabilityBlocksController < ApplicationController
     date = block.date
     block.destroy!
 
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: openings_stream(date, block: nil)
-      end
-      format.html { redirect_to calendar_path(date: date.beginning_of_month) }
-    end
+    respond_with_openings(date, block: nil)
   end
 
   def update
     block = Current.user.availability_blocks.find(params[:id])
     block.update!(block_params)
 
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: openings_stream(block.date, block: block)
-      end
-      format.html { redirect_to calendar_path(date: block.date.beginning_of_month) }
-    end
+    respond_with_openings(block.date, block: block)
   end
 
   private
@@ -65,5 +50,13 @@ class AvailabilityBlocksController < ApplicationController
         locals: { month_start: month_start, month_end: month_end, templates: templates }
       )
     ]
+  end
+
+  def respond_with_openings(date, block:)
+    stream = openings_stream(date, block: block)
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: stream }
+      format.html { redirect_to calendar_path(date: date.beginning_of_month) }
+    end
   end
 end

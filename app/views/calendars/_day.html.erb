@@ -39,6 +39,7 @@
         </div>
 
         <% form_attrs = block ? { model: block } : { url: availability_blocks_toggle_path, scope: :availability_block } %>
+        <% form_attrs[:data] = { turbo_stream: true } %>
         <%= form_with(**form_attrs) do |f| %>
           <div class="form-body">
             <%= hidden_field_tag :date, day unless block %>
@@ -92,6 +93,7 @@
         <% if block %>
           <div class="form-footer">
             <%= button_to availability_block_path(block), method: :delete,
+                form: { data: { turbo_stream: true } },
                 class: "w-full py-3.5 text-center text-red-600 font-medium bg-red-50 hover:bg-red-100 transition-colors rounded-2xl cursor-pointer" do %>
               Remove Availability
             <% end %>

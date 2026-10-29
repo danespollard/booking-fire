@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-3 mb-6 sm:flex-row sm:items-center sm:justify-between">
   <h1 class="text-2xl font-bold text-amber-900"><%= @date.strftime("%B %Y") %></h1>
-  <nav class="flex items-center gap-2 self-start sm:self-auto">
+  <nav class="flex items-center gap-2 ml-auto">
     <%= link_to "← Prev", calendar_path(date: @month_start - 1.month), class: "px-3 py-1.5 text-sm font-medium text-amber-700 bg-white border border-amber-300 rounded-lg hover:bg-amber-50" %>
     <%= link_to "Next →", calendar_path(date: @month_end + 1.day), class: "px-3 py-1.5 text-sm font-medium text-amber-700 bg-white border border-amber-300 rounded-lg hover:bg-amber-50" %>
   </nav>
