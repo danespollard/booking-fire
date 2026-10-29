@@ -1,5 +1,5 @@
 class TemplatesController < ApplicationController
-  before_action :set_template, only: [:edit, :update, :destroy]
+  before_action :set_template, only: [ :edit, :update, :destroy ]
 
   def index
     @templates = Current.user.templates.ordered
