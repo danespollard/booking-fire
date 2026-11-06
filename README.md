@@ -83,5 +83,14 @@ bin/kamal deploy
 
 ## Roadmap
 
-- **Public API** for reading and updating availability programmatically
-- **Third-party integrations** to sync availability with the tools and calendars you already use
+See [ROADMAP.md](ROADMAP.md) for where Booking Fire is headed. Highlights:
+
+- **Holds that work like the business does**: first and second holds, challenges, expiry and follow-ups
+- **Calendar sync** with Apple Calendar, Google, Outlook and any CalDAV server, including self-hosted and open-source options
+- **Band calendars** that find dates when every member is free, with sub lists
+- **Open data**: a public API, webhooks, full export, and a command-line client
+- **Integrations** with gig marketplaces, payments, contracts, Shortcuts and text expanders
+
+## License
+
+Booking Fire is licensed under the [Mozilla Public License 2.0](LICENSE).
