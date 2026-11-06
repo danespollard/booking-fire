@@ -41,7 +41,7 @@ Requires a signed-in session.
 
 ## Stack
 
-- Ruby 3.4.2, Rails 8.0
+- Ruby 3.4.12, Rails 8.0
 - PostgreSQL
 - Hotwire (Turbo + Stimulus), Importmap, Propshaft
 - Tailwind CSS
@@ -50,7 +50,7 @@ Requires a signed-in session.
 
 ## Getting started
 
-Prerequisites: Ruby 3.4.2 and a running PostgreSQL server.
+Prerequisites: Ruby 3.4.12 and a running PostgreSQL server.
 
 ```sh
 bin/setup
