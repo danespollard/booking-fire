@@ -41,7 +41,7 @@ Requires a signed-in session.
 
 ## Stack
 
-- Ruby 3.4.12, Rails 8.0
+- Ruby 3.4.12, Rails 8.1
 - PostgreSQL
 - Hotwire (Turbo + Stimulus), Importmap, Propshaft
 - Tailwind CSS
