@@ -15,6 +15,21 @@ module CalendarHelper
       .gsub("{booked_dates_list}", booked_dates_list(booked_blocks))
   end
 
+  def openings_range_options(month)
+    [
+      [ month.strftime("%B %Y"), "month" ],
+      [ "Next 2 weeks", "next_14" ],
+      [ "Next 30 days", "next_30" ],
+      [ "Next 60 days", "next_60" ],
+      [ "Next 90 days", "next_90" ],
+      [ "Custom dates", "custom" ]
+    ]
+  end
+
+  def openings_range_summary(dates)
+    "#{dates.begin.strftime("%a %b %-d")} – #{dates.end.strftime("%a %b %-d, %Y")}"
+  end
+
   def day_cell_classes(block)
     if block&.open?
       "bg-emerald-100 hover:bg-emerald-200"

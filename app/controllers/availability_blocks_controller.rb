@@ -35,8 +35,6 @@ class AvailabilityBlocksController < ApplicationController
   end
 
   def openings_stream(date, block:)
-    month_start = date.beginning_of_month
-    month_end = date.end_of_month
     templates = Current.user.templates.ordered
     [
       turbo_stream.replace(
@@ -47,7 +45,7 @@ class AvailabilityBlocksController < ApplicationController
       turbo_stream.replace(
         "openings",
         partial: "calendars/openings",
-        locals: { month_start: month_start, month_end: month_end, templates: templates }
+        locals: { month: date, templates: templates }
       )
     ]
   end
