@@ -13,6 +13,7 @@ export default class extends Controller {
 
   open(event) {
     event.stopPropagation()
+    if (this.dialogTarget.contains(event.target)) return
     this.dialogTarget.showModal()
   }
 
