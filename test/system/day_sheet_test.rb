@@ -34,6 +34,19 @@ class DaySheetTest < ApplicationSystemTestCase
     assert_selector "#day-#{@day} .calendar-day-cell.bg-emerald-100"
   end
 
+  test "a rejected save shows the error page instead of Content missing" do
+    open_day_sheet
+    page.driver.browser.execute_cdp(
+      "Network.setUserAgentOverride",
+      userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Mobile/15E148 Safari/604.1"
+    )
+    within("#day-#{@day} dialog") { click_on "Save" }
+    assert_text "Booking Fire needs a newer browser"
+    assert_no_text "Content missing"
+  ensure
+    page.driver.browser.execute_cdp("Network.setUserAgentOverride", userAgent: "")
+  end
+
   private
 
   def open_day_sheet
