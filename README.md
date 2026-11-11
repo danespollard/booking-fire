@@ -64,6 +64,18 @@ bin/dev
 
 The app runs at http://localhost:3000. Seeds create a test account: `test@example.com` / `password`.
 
+## Architecture
+
+Booking Fire follows a few rules so the code stays predictable as it grows:
+
+- **Only the seven standard actions.** Controllers use `index`, `show`, `new`, `create`, `edit`, `update` and `destroy`, and nothing else. A new verb means a new resource: changing the openings date range is `PATCH /openings_range`, not a custom action on another controller.
+- **Routes list only what exists.** Every `resources` line uses `only:`, so the route table matches the controllers.
+- **Months are a resource.** `GET /months/2026-11` shows a month, and `/` shows the current one. The `Month` model handles parsing, neighbors and weeks.
+- **GET never writes.** Data a page needs, like the default templates, is created when its owner is created.
+- **Turbo Stream responses live in views.** Each action that answers with a stream has a `.turbo_stream.erb` template next to its HTML views. Controllers only pick the format.
+- **Partials take locals.** A partial reads only what it's passed, never `Current` or instance variables, so it renders the same from a page, a stream or a test.
+- **Endpoints refuse formats they don't serve.** `/openings` answers in plain text and returns 406 for anything else.
+
 ## Testing and checks
 
 ```sh

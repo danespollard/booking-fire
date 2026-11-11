@@ -1,0 +1,5 @@
+short:
+  user: one
+  name: Short
+  body: "I'm open: {open_dates}. Want me to hold one?"
+  position: 0

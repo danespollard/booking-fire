@@ -6,7 +6,7 @@ class OpeningsRangesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "saves the choice and re-renders the openings" do
-    patch openings_range_path, params: { month: "2026-02-01", user: { openings_range: "next_30" } }, as: :turbo_stream
+    patch openings_range_path, params: { month: "2026-02", user: { openings_range: "next_30" } }, as: :turbo_stream
     assert_response :success
     assert_equal "next_30", users(:one).reload.openings_range
     assert_includes response.body, %(turbo-stream action="replace" target="openings")

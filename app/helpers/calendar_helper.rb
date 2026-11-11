@@ -1,6 +1,5 @@
 module CalendarHelper
-  def render_template(body, from, to)
-    blocks = Current.user.availability_blocks.where(date: from..to).order(:date)
+  def render_template(body, blocks)
     open_blocks = blocks.select(&:open?)
     hold_blocks = blocks.select(&:hold?)
     booked_blocks = blocks.select(&:booked?)
@@ -17,7 +16,7 @@ module CalendarHelper
 
   def openings_range_options(month)
     [
-      [ month.strftime("%B %Y"), "month" ],
+      [ month.name, "month" ],
       [ "Next 2 weeks", "next_14" ],
       [ "Next 30 days", "next_30" ],
       [ "Next 60 days", "next_60" ],

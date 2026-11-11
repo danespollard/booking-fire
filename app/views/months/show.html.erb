@@ -1,8 +1,8 @@
 <div class="flex flex-col gap-3 mb-6 sm:flex-row sm:items-center sm:justify-between">
-  <h1 class="text-2xl font-bold text-amber-900"><%= @date.strftime("%B %Y") %></h1>
+  <h1 class="text-2xl font-bold text-amber-900"><%= @month.name %></h1>
   <nav class="flex items-center gap-2 ml-auto">
-    <%= link_to "← Prev", calendar_path(date: @month_start - 1.month), class: "px-3 py-1.5 text-sm font-medium text-amber-700 bg-white border border-amber-300 rounded-lg hover:bg-amber-50" %>
-    <%= link_to "Next →", calendar_path(date: @month_end + 1.day), class: "px-3 py-1.5 text-sm font-medium text-amber-700 bg-white border border-amber-300 rounded-lg hover:bg-amber-50" %>
+    <%= link_to "← Prev", month_path(@month.previous), class: "px-3 py-1.5 text-sm font-medium text-amber-700 bg-white border border-amber-300 rounded-lg hover:bg-amber-50" %>
+    <%= link_to "Next →", month_path(@month.next), class: "px-3 py-1.5 text-sm font-medium text-amber-700 bg-white border border-amber-300 rounded-lg hover:bg-amber-50" %>
   </nav>
 </div>
 
@@ -16,12 +16,12 @@
       </tr>
     </thead>
     <tbody>
-      <% (@month_start.beginning_of_week(:sunday)..@month_end.end_of_week(:sunday)).each_slice(7) do |week| %>
+      <% @month.weeks.each do |week| %>
         <tr>
           <% week.each do |day| %>
             <td class="calendar-grid-cell border border-gray-200 h-24 align-top p-1 min-w-[100px]">
-              <% if day.month == @date.month %>
-                <%= render "calendars/day", day: day, block: @blocks[day] %>
+              <% if @month.include?(day) %>
+                <%= render "months/day", day: day, block: @blocks[day] %>
               <% else %>
                 <span class="calendar-outside-day text-xs text-gray-300 p-1"><%= day.day %></span>
               <% end %>
@@ -33,4 +33,4 @@
   </table>
 </div>
 
-<%= render "calendars/openings", month: @month_start, templates: @templates %>
+<%= render "months/openings", user: Current.user, month: @month %>

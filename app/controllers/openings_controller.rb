@@ -13,12 +13,12 @@ class OpeningsController < ApplicationController
     respond_to do |format|
       format.text do
         if template
-          render plain: helpers.render_template(template.body, from, to)
+          blocks = Current.user.availability_blocks.where(date: from..to).order(:date)
+          render plain: helpers.render_template(template.body, blocks)
         else
           render plain: "No templates found."
         end
       end
-      format.html { redirect_to calendar_path }
     end
   end
 end
