@@ -1,7 +1,8 @@
 class OpeningsController < ApplicationController
   def show
-    from = params[:from] ? Date.parse(params[:from]) : Date.today.beginning_of_month
-    to = params[:to] ? Date.parse(params[:to]) : Date.today.end_of_month
+    dates = Current.user.openings_dates(month: Date.current)
+    from = params[:from] ? Date.parse(params[:from]) : dates.begin
+    to = params[:to] ? Date.parse(params[:to]) : dates.end
 
     template = if params[:template_id]
       Current.user.templates.find(params[:template_id])

@@ -8,6 +8,23 @@ class OpeningsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "text/plain", response.media_type
   end
 
+  test "GET /openings.text uses the saved range" do
+    user = users(:one)
+    user.update!(openings_range: "custom", openings_from: "2026-02-17", openings_to: "2026-02-17")
+    user.templates.create!(name: "Short", body: "Open: {open_dates}")
+    sign_in user
+    get openings_path(format: :text)
+    assert_equal "Open: Tue 2/17", response.body
+  end
+
+  test "GET /openings.text from and to override the saved range" do
+    user = users(:one)
+    user.templates.create!(name: "Short", body: "Open: {open_dates}")
+    sign_in user
+    get openings_path(format: :text, from: "2026-02-01", to: "2026-02-28")
+    assert_equal "Open: Tue 2/17", response.body
+  end
+
   test "GET /openings authenticated HTML redirects to calendar" do
     sign_in users(:one)
     get openings_path
