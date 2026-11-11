@@ -13,6 +13,12 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
+  test "POST /registration gives the new account the default templates" do
+    post registration_path, params: { user: { email_address: "new@example.com", password: "password123", password_confirmation: "password123" } }
+    user = User.find_by!(email_address: "new@example.com")
+    assert_equal [ "Short", "Full List", "By Weekday" ], user.templates.ordered.pluck(:name)
+  end
+
   test "POST /registration with invalid params re-renders form with 422" do
     assert_no_difference "User.count" do
       post registration_path, params: { user: { email_address: "", password: "short", password_confirmation: "mismatch" } }

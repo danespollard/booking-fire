@@ -10,6 +10,7 @@ class User < ApplicationRecord
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   before_validation :default_custom_openings_dates
+  after_create :create_default_templates
 
   validates :openings_range, inclusion: { in: OPENINGS_RANGES }
   validate :custom_openings_dates_in_order
@@ -23,6 +24,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def create_default_templates
+    templates.create!(Template::DEFAULTS)
+  end
 
   def default_custom_openings_dates
     return unless openings_range == "custom"
