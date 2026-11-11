@@ -34,6 +34,29 @@ class DaySheetTest < ApplicationSystemTestCase
     assert_selector "#day-#{@day} .calendar-day-cell.bg-emerald-100"
   end
 
+  test "editing a marked day changes it" do
+    open_day_sheet
+    within("#day-#{@day} dialog") { click_on "Save" }
+    assert_selector "#day-#{@day} .calendar-day-cell.bg-emerald-100"
+
+    open_day_sheet
+    within("#day-#{@day} dialog") do
+      find("label.status-booked").click
+      click_on "Save"
+    end
+    assert_selector "#day-#{@day} .calendar-day-cell.bg-rose-100"
+  end
+
+  test "removing availability clears the day" do
+    open_day_sheet
+    within("#day-#{@day} dialog") { click_on "Save" }
+    assert_selector "#day-#{@day} .calendar-day-cell.bg-emerald-100"
+
+    open_day_sheet
+    within("#day-#{@day} dialog") { click_on "Remove Availability" }
+    assert_selector "#day-#{@day} .calendar-day-cell.bg-gray-50"
+  end
+
   test "a rejected save shows the error page instead of Content missing" do
     open_day_sheet
     page.driver.browser.execute_cdp(
@@ -50,7 +73,7 @@ class DaySheetTest < ApplicationSystemTestCase
   private
 
   def open_day_sheet
-    find("#day-#{@day} .calendar-day-cell").click
+    find("#day-#{@day} .calendar-day-cell").click unless has_selector?("#day-#{@day} dialog[open]", wait: 0)
     assert_selector "#day-#{@day} dialog[open]"
   end
 end

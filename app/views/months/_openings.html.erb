@@ -1,5 +1,6 @@
-<% user = Current.user %>
-<% dates = user.openings_dates(month: month) %>
+<% dates = user.openings_dates(month: month.first_day) %>
+<% blocks = user.availability_blocks.where(date: dates).order(:date).to_a %>
+<% templates = user.templates.ordered %>
 <% error = local_assigns[:error] %>
 <%= turbo_frame_tag "openings" do %>
   <div class="mt-8 bg-white rounded-xl shadow-sm border border-amber-100 p-4 sm:p-6">
@@ -8,7 +9,7 @@
       <%= link_to "Edit templates", templates_path, class: "text-xs text-amber-600 hover:text-amber-800", data: { turbo_frame: "_top" } %>
     </div>
     <%= form_with model: user, url: openings_range_path, method: :patch, class: "mb-4", data: { controller: "autosubmit" } do |f| %>
-      <%= hidden_field_tag :month, month.beginning_of_month %>
+      <%= hidden_field_tag :month, month.to_param %>
       <div class="flex flex-wrap items-center gap-2">
         <%= f.label :openings_range, "Dates", class: "text-xs font-medium text-amber-800" %>
         <%= f.select :openings_range, openings_range_options(month), {}, class: "rounded-md border border-amber-300 bg-white px-2 py-1 text-sm text-amber-900", data: { action: "autosubmit#submit" } %>
@@ -40,7 +41,7 @@
       <% templates.each_with_index do |template, i| %>
         <div data-tabs-target="panel" <%= i > 0 ? "hidden" : "" %>>
           <div data-controller="clipboard">
-            <pre class="bg-amber-50 rounded-lg p-4 text-sm text-amber-900 mb-4 whitespace-pre-wrap" data-clipboard-target="source"><%= render_template(template.body, dates.begin, dates.end) %></pre>
+            <pre class="bg-amber-50 rounded-lg p-4 text-sm text-amber-900 mb-4 whitespace-pre-wrap" data-clipboard-target="source"><%= render_template(template.body, blocks) %></pre>
             <button data-action="click->clipboard#copy" data-clipboard-target="button" class="px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-500 cursor-pointer transition-colors">Copy</button>
           </div>
         </div>

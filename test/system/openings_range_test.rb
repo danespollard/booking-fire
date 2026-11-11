@@ -23,7 +23,7 @@ class OpeningsRangeTest < ApplicationSystemTestCase
     within("#openings") { assert_no_text far }
     within("#openings") { assert_text near }
 
-    visit calendar_path
+    visit root_path
     assert_select "Dates", selected: "Next 2 weeks"
     within("#openings") { assert_no_text far }
   end
